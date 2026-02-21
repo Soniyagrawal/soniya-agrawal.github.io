@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soniya Agrawal — AI Governance & Tech Policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f5f0e8;
+    --warm: #e8e0d0;
+    --accent: #b54a32;
+    --accent-light: #d4705c;
+    --muted: #6b6358;
+    --light-muted: #9a9084;
+    --divider: #c8bfb0;
+    --card-bg: #ebe5da;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', 'Helvetica Neue', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 70px; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent); color: white; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(245,240,232,0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--divider);
+    transition: transform 0.35s ease;
+  }
+  nav .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    padding: 0.75rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  nav .nav-name {
+    font-family: var(--serif); font-weight: 700; font-size: 1.15rem;
+    letter-spacing: -0.02em; color: var(--ink);
+    text-decoration: none;
+  }
+  nav .nav-links { display: flex; gap: 1.75rem; align-items: center; }
+  nav .nav-links a {
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--muted);
+    text-decoration: none; position: relative;
+    transition: color 0.25s;
+  }
+  nav .nav-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0;
+    width: 0; height: 1.5px; background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  nav .nav-links a:hover { color: var(--ink); }
+  nav .nav-links a:hover::after, nav .nav-links a.active::after { width: 100%; }
+  nav .nav-links a.active { color: var(--ink); }
+
+  /* ─── HAMBURGER (mobile) ─── */
+  .hamburger { display: none; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); margin: 5px 0; transition: 0.3s; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 2rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -120px; right: -200px;
+    width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(181,74,50,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -80px; left: -150px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(181,74,50,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    align-items: center;
+  }
+  .hero-text { position: relative; z-index: 2; }
+  .hero-tag {
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 300;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--accent); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+    opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+  }
+  .hero-tag::before { content: ''; width: 2rem; height: 1px; background: var(--accent); }
+  .hero h1 {
+    font-family: var(--serif); font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+    font-weight: 700; line-height: 1.05;
+    letter-spacing: -0.03em; margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 1.1rem; color: var(--muted); max-width: 480px;
+    line-height: 1.7; margin-bottom: 2rem;
+    opacity: 0; animation: fadeUp 0.7s 0.5s forwards;
+  }
+  .hero-links {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.7s 0.65s forwards;
+  }
+  .hero-links a {
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none;
+    padding: 0.7rem 1.5rem; border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-outline { border: 1.5px solid var(--ink); color: var(--ink); }
+  .btn-outline:hover { background: var(--ink); color: var(--paper); }
+
+  /* Hero cards */
+  .hero-cards {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; gap: 1rem;
+    opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
+  }
+  .credential-card {
+    background: var(--card-bg);
+    border: 1px solid var(--divider);
+    padding: 1.25rem 1.5rem; border-radius: 4px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .credential-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  .credential-card .cc-label {
+    font-family: var(--mono); font-size: 0.62rem; font-weight: 400;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--accent); margin-bottom: 0.4rem;
+  }
+  .credential-card .cc-title {
+    font-family: var(--serif); font-size: 1.15rem; font-weight: 600;
+    line-height: 1.35; margin-bottom: 0.25rem;
+  }
+  .credential-card .cc-sub { font-size: 0.82rem; color: var(--muted); }
+
+  /* ─── SECTIONS SHARED ─── */
+  section { padding: 6rem 2rem; scroll-margin-top: 60px; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--mono); font-size: 0.65rem;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--accent); margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .section-label::before { content: ''; width: 1.5rem; height: 1px; background: var(--accent); }
+  .section-title {
+    font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700; line-height: 1.1;
+    letter-spacing: -0.025em; margin-bottom: 1.5rem;
+  }
+  .section-desc {
+    font-size: 1.02rem; color: var(--muted); max-width: 640px;
+    line-height: 1.7; margin-bottom: 3rem;
+  }
+
+  /* ─── ABOUT ─── */
+  #about { background: var(--ink); color: var(--paper); }
+  #about .section-label { color: var(--accent-light); }
+  #about .section-label::before { background: var(--accent-light); }
+  #about .section-desc { color: rgba(245,240,232,0.7); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .about-narrative {
+    font-family: var(--serif); font-size: 1.2rem;
+    line-height: 1.75; color: rgba(245,240,232,0.88);
+  }
+  .about-narrative p { margin-bottom: 1.25rem; }
+  .about-narrative em { color: var(--accent-light); font-style: italic; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .stat-block {
+    padding: 1.5rem; border: 1px solid rgba(245,240,232,0.12);
+    border-radius: 3px; transition: border-color 0.3s;
+  }
+  .stat-block:hover { border-color: var(--accent-light); }
+  .stat-number {
+    font-family: var(--serif); font-size: 2.2rem; font-weight: 700;
+    color: var(--accent-light); line-height: 1; margin-bottom: 0.4rem;
+  }
+  .stat-label { font-size: 0.78rem; color: rgba(245,240,232,0.5); letter-spacing: 0.02em; }
+
+  /* ─── EXPERIENCE ─── */
+  .timeline { position: relative; }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px; background: var(--divider);
+  }
+  .timeline-item { padding-left: 2.5rem; margin-bottom: 3rem; position: relative; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -4px; top: 0.4rem;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--paper); border: 2px solid var(--accent);
+  }
+  .tl-date {
+    font-family: var(--mono); font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--light-muted); margin-bottom: 0.4rem;
+  }
+  .tl-role {
+    font-family: var(--serif); font-size: 1.35rem;
+    font-weight: 600; line-height: 1.3; margin-bottom: 0.2rem;
+  }
+  .tl-org { font-size: 0.92rem; color: var(--accent); font-weight: 500; margin-bottom: 0.6rem; }
+  .tl-desc { font-size: 0.9rem; color: var(--muted); max-width: 560px; line-height: 1.7; }
+
+  /* ─── EXPERTISE ─── */
+  #expertise { background: var(--warm); }
+  .expertise-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .expertise-card {
+    background: var(--paper); padding: 2rem 1.75rem;
+    border: 1px solid var(--divider); border-radius: 4px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .expertise-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px; background: var(--accent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .expertise-card:hover::before { transform: scaleX(1); }
+  .expertise-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.06);
+  }
+  .expertise-icon {
+    font-size: 1.6rem; margin-bottom: 1rem;
+    width: 48px; height: 48px; display: flex;
+    align-items: center; justify-content: center;
+    background: rgba(181,74,50,0.08); border-radius: 8px;
+  }
+  .expertise-card h3 {
+    font-family: var(--serif); font-size: 1.2rem;
+    font-weight: 600; margin-bottom: 0.5rem;
+  }
+  .expertise-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+
+  /* ─── IMPACT ─── */
+  .impact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .impact-card {
+    border: 1px solid var(--divider); border-radius: 4px;
+    padding: 2rem; background: var(--card-bg);
+    transition: transform 0.3s, box-shadow 0.3s; position: relative;
+  }
+  .impact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.06);
+  }
+  .impact-badge {
+    font-family: var(--mono); font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    background: rgba(181,74,50,0.1); color: var(--accent);
+    padding: 0.25rem 0.6rem; border-radius: 2px;
+    display: inline-block; margin-bottom: 0.75rem;
+  }
+  .impact-card h3 {
+    font-family: var(--serif); font-size: 1.3rem;
+    font-weight: 600; margin-bottom: 0.5rem; line-height: 1.3;
+  }
+  .impact-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+  /* ─── PUBLISHED WORK ─── */
+  #published { background: var(--warm); }
+  .filter-tabs {
+    display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem;
+  }
+  .filter-tab {
+    font-family: var(--mono); font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 0.5rem 1rem; border: 1px solid var(--divider);
+    background: var(--paper); color: var(--muted);
+    border-radius: 2px; cursor: pointer; transition: all 0.25s;
+  }
+  .filter-tab:hover, .filter-tab.active {
+    background: var(--ink); color: var(--paper); border-color: var(--ink);
+  }
+  .articles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .article-card {
+    background: var(--paper); border: 1px solid var(--divider);
+    border-radius: 4px; padding: 1.5rem;
+    text-decoration: none; color: var(--ink);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .article-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.06);
+  }
+  .article-tag {
+    font-family: var(--mono); font-size: 0.58rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--accent); margin-bottom: 0.5rem;
+  }
+  .article-card h3 {
+    font-family: var(--serif); font-size: 1.05rem;
+    font-weight: 600; line-height: 1.35; margin-bottom: 0.5rem;
+  }
+  .article-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; margin-bottom: 0.75rem; }
+  .article-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.72rem; color: var(--light-muted);
+  }
+  .article-arrow { color: var(--accent); font-weight: 600; font-size: 0.85rem; }
+  .view-all-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    margin-top: 2rem; font-family: var(--mono); font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--accent); text-decoration: none;
+    padding: 0.6rem 0; border-bottom: 1px solid var(--accent);
+    transition: gap 0.3s;
+  }
+  .view-all-link:hover { gap: 0.8rem; }
+
+  /* ─── EDUCATION ─── */
+  #education { background: var(--ink); color: var(--paper); }
+  #education .section-label { color: var(--accent-light); }
+  #education .section-label::before { background: var(--accent-light); }
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .edu-card {
+    border: 1px solid rgba(245,240,232,0.1);
+    padding: 2rem; border-radius: 4px; transition: border-color 0.3s;
+  }
+  .edu-card:hover { border-color: var(--accent-light); }
+  .edu-card .edu-degree {
+    font-family: var(--serif); font-size: 1.3rem;
+    font-weight: 600; margin-bottom: 0.3rem; line-height: 1.3;
+  }
+  .edu-card .edu-school {
+    font-size: 0.92rem; color: var(--accent-light);
+    margin-bottom: 0.6rem; font-weight: 500;
+  }
+  .edu-card .edu-detail {
+    font-size: 0.83rem; color: rgba(245,240,232,0.5); line-height: 1.6;
+  }
+
+  /* ─── AWARDS ─── */
+  #awards { background: var(--paper); }
+  .awards-list { display: flex; flex-direction: column; gap: 1.5rem; max-width: 800px; }
+  .award-item {
+    display: flex; align-items: flex-start; gap: 1.5rem;
+    padding: 1.5rem; background: var(--card-bg);
+    border: 1px solid var(--divider); border-radius: 4px;
+    transition: transform 0.3s;
+  }
+  .award-item:hover { transform: translateX(6px); }
+  .award-year {
+    font-family: var(--serif); font-size: 2rem; font-weight: 700;
+    color: var(--accent); line-height: 1; min-width: 72px;
+  }
+  .award-info h3 {
+    font-family: var(--serif); font-size: 1.15rem;
+    font-weight: 600; margin-bottom: 0.2rem;
+  }
+  .award-info p { font-size: 0.85rem; color: var(--muted); }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--ink); color: var(--paper);
+    text-align: center; padding: 6rem 2rem;
+  }
+  #contact .section-label { color: var(--accent-light); justify-content: center; }
+  #contact .section-label::before { display: none; }
+  #contact .section-title { margin: 0 auto 1rem; }
+  #contact .section-desc { color: rgba(245,240,232,0.6); margin: 0 auto 2.5rem; text-align: center; }
+  .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.85rem; color: rgba(245,240,232,0.7);
+    text-decoration: none; padding: 0.6rem 1.2rem;
+    border: 1px solid rgba(245,240,232,0.15); border-radius: 3px;
+    transition: all 0.3s;
+  }
+  .contact-link:hover {
+    color: var(--paper); border-color: var(--accent-light);
+    background: rgba(181,74,50,0.15);
+  }
+  .contact-link svg { width: 16px; height: 16px; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink); color: rgba(245,240,232,0.35);
+    text-align: center; padding: 2rem;
+    font-size: 0.75rem; letter-spacing: 0.04em;
+    border-top: 1px solid rgba(245,240,232,0.06);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-grid { grid-template-columns: 1fr; }
+    .expertise-grid { grid-template-columns: 1fr 1fr; }
+    .impact-grid { grid-template-columns: 1fr; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .articles-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .hero { padding: 7rem 1.25rem 3rem; }
+    section { padding: 4rem 1.25rem; }
+    nav .nav-inner { padding: 0.75rem 1.25rem; }
+    nav .nav-links {
+      display: none; flex-direction: column;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: rgba(245,240,232,0.97); backdrop-filter: blur(16px);
+      padding: 1rem 2rem; gap: 1rem;
+      border-bottom: 1px solid var(--divider);
+    }
+    nav .nav-links.open { display: flex; }
+    .hamburger { display: block; }
+    .expertise-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+    .hero-links { flex-direction: column; }
+    .hero-links a { text-align: center; }
+    .filter-tabs { gap: 0.35rem; }
+    .filter-tab { font-size: 0.6rem; padding: 0.4rem 0.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ NAV ═══════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-name">Soniya Agrawal</a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#expertise">Expertise</a>
+      <a href="#impact">Research</a>
+      <a href="#published">Articles</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-tag">AI Governance · Tech Policy · Investigative Research</div>
+      <h1>Soniya<br/>Agrawal</h1>
+      <p class="hero-sub">Policy researcher and award-winning journalist specializing in <strong>AI governance</strong>, tech accountability, and regulatory frameworks — bridging investigative rigor with the policy challenges of emerging technologies.</p>
+      <div class="hero-links">
+        <a href="https://www.linkedin.com/in/soniya-agrawal-2a3001168/" target="_blank" class="btn-primary">LinkedIn Profile</a>
+        <a href="https://theprint.in/author/soniya-agrawal/" target="_blank" class="btn-outline">Published Work</a>
+        <a href="#contact" class="btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-cards">
+      <div class="credential-card">
+        <div class="cc-label">Current · 2024–2026</div>
+        <div class="cc-title">Master of Public Policy</div>
+        <div class="cc-sub">UC Berkeley — Goldman School of Public Policy</div>
+      </div>
+      <div class="credential-card">
+        <div class="cc-label">Research Position</div>
+        <div class="cc-title">Research Analyst — TechEquity Collaborative</div>
+        <div class="cc-sub">Tracking $57M+ in Big Tech lobbying against CA AI legislation</div>
+      </div>
+      <div class="credential-card">
+        <div class="cc-label">Capstone Collaboration</div>
+        <div class="cc-title">MIT AI Risk Repository</div>
+        <div class="cc-sub">Compliance evaluation frameworks for frontier AI safety policies</div>
+      </div>
+      <div class="credential-card">
+        <div class="cc-label">Editorial Role</div>
+        <div class="cc-title">Communications Editor — Data &amp; Policy</div>
+        <div class="cc-sub">Cambridge University Press</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ ABOUT ═══════ -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">About</div>
+    <div class="about-grid">
+      <div class="about-narrative reveal">
+        <p>I'm a second-year MPP candidate at UC Berkeley's Goldman School of Public Policy, building at the intersection of <em>AI governance, tech accountability, and data-driven policy research</em>.</p>
+        <p>Before pivoting to policy, I spent five years as a Senior Correspondent at <em>ThePrint</em>, India's largest digital news organization, publishing over 600 articles and winning the International Press Institute Award for Excellence in Journalism for frontline COVID-19 investigative reporting. I helped scale ThePrint's YouTube from 100K to over 2 million subscribers.</p>
+        <p>Today, my work spans lobbying analysis, regulatory compliance frameworks, and AI safety evaluations — translating complex technical realities into actionable governance insights. I bring international experience across <em>India, Mexico, and the United States</em>, and a deep commitment to ensuring technology serves the public interest.</p>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-block">
+          <div class="stat-number">600+</div>
+          <div class="stat-label">Published articles at ThePrint</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">$57M+</div>
+          <div class="stat-label">Big Tech lobbying expenditures tracked</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">8+</div>
+          <div class="stat-label">Years across media, policy consulting &amp; academic research</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">2M+</div>
+          <div class="stat-label">YouTube subscribers growth at ThePrint</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Countries: India, Mexico, USA</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">120+</div>
+          <div class="stat-label">Students taught as GSI at UC Berkeley</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ EXPERIENCE ═══════ -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">Experience</div>
+    <div class="section-title reveal">Where Policy<br/>Meets Practice</div>
+    <div class="section-desc reveal">A career built on rigorous investigation, data analysis, and translating complex systems into public understanding.</div>
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <div class="tl-date">2024 – Present</div>
+        <div class="tl-role">Research Analyst</div>
+        <div class="tl-org">TechEquity Collaborative</div>
+        <div class="tl-desc">Tracking Big Tech lobbying against California AI legislation including SB 1047, AB 1018, and SB 53. Analyzing regulatory capture patterns and industry coordination tactics to inform equitable tech policy advocacy.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">2024 – Present</div>
+        <div class="tl-role">Data Analyst</div>
+        <div class="tl-org">UC Berkeley — Global Rights Innovation Lab</div>
+        <div class="tl-desc">Conducting data-driven research at the intersection of human rights and technology, applying quantitative methods to global governance challenges.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">2024 – Present</div>
+        <div class="tl-role">Communications Editor</div>
+        <div class="tl-org">Data &amp; Policy — Cambridge University Press</div>
+        <div class="tl-desc">Editing and curating content for a leading academic journal on the intersection of data science and public policy.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">2024 – Present</div>
+        <div class="tl-role">Graduate Student Instructor</div>
+        <div class="tl-org">UC Berkeley — Economics &amp; Psychology</div>
+        <div class="tl-desc">Teaching econometrics and R programming to 120+ undergraduate students, bridging quantitative methods with social science applications.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">2018 – 2023</div>
+        <div class="tl-role">Senior Correspondent</div>
+        <div class="tl-org">ThePrint — India's Largest Digital News Organization</div>
+        <div class="tl-desc">Published 600+ articles on education, technology policy, and algorithmic accountability. Led frontline COVID-19 investigations that triggered government audits. Exposed systematic issues in India's Swayam MOOC platform affecting 30 million users, influencing national education legislation.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Previous Roles</div>
+        <div class="tl-role">Policy Consultant</div>
+        <div class="tl-org">International Innovation Corps</div>
+        <div class="tl-desc">Policy consulting across multiple governments: Port of Seattle (workforce development), City of El Paso (international trade), and Delhi government (climate policy).</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Earlier Career</div>
+        <div class="tl-role">Teach for India Fellow</div>
+        <div class="tl-org">Teach for India</div>
+        <div class="tl-desc">Focused on education equity, achieving significant improvements in student reading proficiency through data-informed teaching methodologies.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ EXPERTISE ═══════ -->
+<section id="expertise">
+  <div class="section-inner">
+    <div class="section-label">Areas of Expertise</div>
+    <div class="section-title reveal">What I Bring to the Table</div>
+    <div class="expertise-grid reveal">
+      <div class="expertise-card">
+        <div class="expertise-icon">&#9878;&#65039;</div>
+        <h3>AI Governance &amp; Regulation</h3>
+        <p>EU AI Act, California SB 1047 / SB 53, compliance evaluation frameworks, frontier AI safety policy analysis, regulatory impact assessment.</p>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-icon">&#128269;</div>
+        <h3>Tech Accountability Research</h3>
+        <p>Lobbying expenditure tracking, regulatory capture analysis, industry coordination pattern detection, corporate transparency evaluation.</p>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-icon">&#128202;</div>
+        <h3>Quantitative Policy Analysis</h3>
+        <p>Causal inference, program evaluation, RCTs, observational studies, econometrics, R programming, statistical modeling.</p>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-icon">&#129302;</div>
+        <h3>AI Safety &amp; Risk Assessment</h3>
+        <p>Frontier model safety frameworks, responsible scaling policies, transparency documentation analysis, risk taxonomy development.</p>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-icon">&#9997;&#65039;</div>
+        <h3>Investigative Research &amp; Writing</h3>
+        <p>600+ published articles, award-winning investigative journalism, long-form narrative, translating complexity for diverse audiences.</p>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-icon">&#127758;</div>
+        <h3>Cross-Cultural Policy Work</h3>
+        <p>International experience across India, Mexico, and the US. Multilingual capabilities. Policy consulting for governments at local, national, and international levels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ KEY RESEARCH & IMPACT ═══════ -->
+<section id="impact">
+  <div class="section-inner">
+    <div class="section-label">Key Research &amp; Impact</div>
+    <div class="section-title reveal">Work That Moves<br/>the Needle</div>
+    <div class="section-desc reveal">From exposing algorithmic bias affecting millions to building compliance frameworks for frontier AI — research designed to inform action.</div>
+    <div class="impact-grid reveal">
+      <div class="impact-card">
+        <div class="impact-badge">MIT Capstone</div>
+        <h3>AI Risk Repository — Compliance Evaluation Framework</h3>
+        <p>Developing frameworks with MIT FutureTech to evaluate frontier AI companies' safety policies against regulatory standards like the EU AI Act and California's SB 53. Analyzing safety documentation from xAI, Anthropic, OpenAI, and Google DeepMind.</p>
+      </div>
+      <div class="impact-card">
+        <div class="impact-badge">TechEquity</div>
+        <h3>Big Tech Lobbying Against California AI Bills</h3>
+        <p>Tracked over $57 million in industry lobbying expenditures targeting key California AI legislation. Research reveals how coordinated industry campaigns influence the regulatory landscape for artificial intelligence.</p>
+      </div>
+      <div class="impact-card">
+        <div class="impact-badge">Investigative</div>
+        <h3>Swayam MOOC Platform — Digital Learning Investigation</h3>
+        <p>Exposed systematic issues in India's national MOOC education platform affecting 30 million users — including low completion rates, infrastructure failures, and inequitable access. Investigation influenced national education legislation.</p>
+      </div>
+      <div class="impact-card">
+        <div class="impact-badge">COVID-19</div>
+        <h3>Death Underreporting Investigation</h3>
+        <p>Frontline investigative reporting during India's devastating second wave. Uncovered death underreporting across states, visiting crematoriums and hospitals. Work triggered government audits and earned the IPI Award for Excellence.</p>
+      </div>
+      <div class="impact-card">
+        <div class="impact-badge">Academic</div>
+        <h3>UC Berkeley AI Governance Symposium</h3>
+        <p>Organized UC Berkeley's inaugural AI Governance Symposium, convening researchers, policymakers, and industry leaders to address the governance challenges of emerging AI systems.</p>
+      </div>
+      <div class="impact-card">
+        <div class="impact-badge">Public Engagement</div>
+        <h3>30 Days of 30 Studies — AI Research Series</h3>
+        <p>LinkedIn series analyzing cutting-edge AI research papers, translating complex technical findings into accessible policy insights for a broad professional audience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PUBLISHED WORK ═══════ -->
+<section id="published">
+  <div class="section-inner">
+    <div class="section-label">Published Work</div>
+    <div class="section-title reveal">Selected Technology Coverage</div>
+    <div class="section-desc reveal">A curated selection from 600+ published articles at ThePrint spanning AI, education technology, digital platforms, and policy.</div>
+
+    <div class="filter-tabs reveal">
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="ai">AI &amp; Business</button>
+      <button class="filter-tab" data-filter="edtech">EdTech &amp; Digital Learning</button>
+      <button class="filter-tab" data-filter="policy">Tech Policy</button>
+      <button class="filter-tab" data-filter="gender">Gender &amp; STEM</button>
+    </div>
+
+    <div class="articles-grid reveal">
+
+      <a href="https://theprint.in/india/iim-ahmedabad-study-of-130-companies-finds-3-of-4-indian-businesses-cant-leverage-ai-to-boost-profits/1668822/" target="_blank" class="article-card" data-category="ai">
+        <div>
+          <div class="article-tag">AI &amp; Business</div>
+          <h3>IIM-Ahmedabad Study Finds 3 of 4 Indian Businesses Can't Leverage AI to Boost Profits</h3>
+          <p>A report by IIM-A and Boston Consulting Group reveals that despite growing AI expenditure, most Indian companies lack the maturity to convert AI investments into profit gains.</p>
+        </div>
+        <div class="article-meta"><span>Jul 2023 · ThePrint</span><span class="article-arrow">&rarr;</span></div>
+      </a>
+
+      <a href="https://theprint.in/india/education/no-need-for-jee-iit-guwahati-starts-online-b-sc-for-data-science-artificial-intelligence/1654253/" target="_blank" class="article-card" data-category="ai">
+        <div>
+          <div class="article-tag">AI &amp; Education</div>
+          <h3>No Need for JEE: IIT Guwahati Starts Online B.Sc for Data Science &amp; AI</h3>
+          <p>IIT Guwahati partners with Coursera to launch a four-year online program in Data Science and AI, democratizing access to elite technical education.</p>
+        </div>
+        <div class="article-meta"><span>Jul 2023 · ThePrint</span><span class="article-arrow">&rarr;</span></div>
+      </a>
+
+      <a href="https://theprint.in/india/how-haryana-up-mp-are-leading-the-way-in-regulating-edtech-content-in-govt-schools/1450311/" target="_blank" class="article-card" data-category="edtech policy">
+        <div>
+          <div class="article-tag">EdTech Regulation</div>
+          <h3>How Haryana, UP &amp; MP Are Leading the Way in Regulating EdTech Content in Schools</h3>
+          <p>State governments create frameworks to vet AI-powered educational software, ensuring EdTech content aligns with curriculum standards.</p>
+        </div>
+        <div class="article-meta"><span>Mar 2023 · ThePrint</span><span class="article-arrow">&rarr;</span></div>
+      </a>
+
+      <a href="https://theprint.in/tech/inaccurate-references-cumbersome-say-students-is-chatgpt-losing-its-sheen/1411179/" target="_blank" class="article-card" data-category="ai">
+        <div>
+          <div class="article-tag">AI Tools</div>
+          <h3>'Inaccurate References &amp; Cumbersome': Why ChatGPT Might Be Losing Its Sheen</h3>
+          <p>Months after its meteoric rise, students and professionals report growing frustrations with ChatGPT's accuracy and usability limitations.</p>
+        </div>
+        <div class="article-meta"><span>Mar 2023 · ThePrint</span><span class="article-arrow">&rarr;</span></div>
+      </a>
+
+      <a href="https://theprint.in/feature/byjus-to-lido-indias-edtech-sector-is-leaking-complaints-unchecked-power-no-trust/1384795/" target="_blank" class="article-card" data-category="edtech">
+        <div>
+          <div class="article-tag">EdTech Investigation</div>
+          <h3>Byju's to Lido: India's EdTech Sector Is Leaking Complaints — Unchecked Power, No Trust</h3>
+          <p>An investigation into thousands of consumer complaints against EdTech giants, revealing systemic accountability gaps in the sector.</p>
+        </div>
+        <div class="article-meta"><span>Feb 2023 · ThePrint</span><span class="article-arrow">&rarr;</span></div>
+      </a>
+
+      <a href="https://theprint.in/budget/budget-2023-modi-govt-puts-focus-on-upgrading-skills-tech-ai-centres-training-scheme/1321460/" target="_blank" class="article-card" data-category="policy ai">
+        <div>
+          <div class="article-tag">AI Policy</div>
+          <h3>Budget 2023: Modi Govt Puts Focus on Upgrading Skills &amp; Tech, 3 New AI Centres to Come Up</h3>
+          <p>Analysis of India's budget allocation for AI infrastructure, including new centres of excellence and skill development programs.</p>
+        </div>
+        <div class="article-meta"><span>Feb 2023 · ThePrint</span><span class="article-arrow">&rarr;</span></div>
+      </a>
+
+      <a href="https://theprint.in/india/education/plagiarism-challenge-or-opportunity-ai-platform-chatgpt-has-academics-tech-analysts-divided/1314504/" target="_blank" class="article-card" data-category="ai edtech">
+        <div>
+          <div class="article-tag">AI &amp; Academia</div>
+          <h3>Plagiarism Challenge or Opportunity? AI Platform ChatGPT Has Academics Divided</h3>
+          <p>As ChatGPT gains traction among students, educational institutions grapple with questions of academic integrity and the future of learning.</p>
+        </div>
+        <div class="article-meta"><span>Jan 2023 · ThePrint</span><span class="article-arrow">&rarr;</span></div>
+      </a>
+
+      <a href="https://theprint.in/india/education/teachers-gender-bias-can-make-girls-maths-performance-drop-but-not-english-finds-study/1309321/" target="_blank" class="article-card" data-category="gender edtech">
+        <div>
+          <div class="article-tag">Gender &amp; Education</div>
+          <h3>Teachers' Gender Bias Can Make Girls' Maths Performance Drop, But Not English, Finds Study</h3>
+          <p>Research reveals how implicit bias in teaching affects educational outcomes for girls, with implications for equitable AI-powered learning systems.</p>
+        </div>
+        <div class="article-meta"><span>Jan 2023 · ThePrint</span><span class="article-arrow">&rarr;</span></div>
+      </a>
+
+      <a href="https://theprint.in/india/why-swayam-portals-a-dampener-for-modi-govts-online-learning-dream-3-cr-signed-up-4-finished/1308349/" target="_blank" class="article-card" data-category="edtech policy">
+        <div>
+          <div class="article-tag">Digital Platform Investigation</div>
+          <h3>Why Swayam Portal's a Dampener for Modi Govt's Online Learning Dream — 3 Cr Signed Up, 4% Finished</h3>
+          <p>Investigation into India's flagship MOOC platform reveals systemic issues with course completion, infrastructure, and user experience.</p>
+        </div>
+        <div class="article-meta"><span>Jan 2023 · ThePrint</span><span class="article-arrow">&rarr;</span></div>
+      </a>
+
+      <a href="https://theprint.in/india/education/20-drop-in-maths-performance-after-class-7-as-students-dont-understand-words-edtech-app-finds/948974/" target="_blank" class="article-card" data-category="edtech ai">
+        <div>
+          <div class="article-tag">AI-Driven Learning</div>
+          <h3>20% Drop in Maths Performance After Class 7 as Students Don't Understand Words, EdTech App Finds</h3>
+          <p>AI-powered analysis of 75,000 students reveals the critical role of language comprehension in mathematical learning outcomes.</p>
+        </div>
+        <div class="article-meta"><span>May 2022 · ThePrint</span><span class="article-arrow">&rarr;</span></div>
+      </a>
+
+      <a href="https://theprint.in/india/education/57-girl-students-85-boys-interested-in-pursuing-stem-as-career-survey-finds/687370/" target="_blank" class="article-card" data-category="gender">
+        <div>
+          <div class="article-tag">Gender &amp; STEM</div>
+          <h3>57% Girl Students, 85% Boys Interested in Pursuing STEM as Career, Survey Finds</h3>
+          <p>Multi-city survey reveals persistent gender gaps in technology career aspirations and the lack of female role models in STEM fields.</p>
+        </div>
+        <div class="article-meta"><span>Jul 2021 · ThePrint</span><span class="article-arrow">&rarr;</span></div>
+      </a>
+
+    </div>
+
+    <a href="https://theprint.in/author/soniya-agrawal/" target="_blank" class="view-all-link reveal">View all 665 articles at ThePrint &rarr;</a>
+  </div>
+</section>
+
+<!-- ═══════ EDUCATION ═══════ -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-label">Education</div>
+    <div class="section-title reveal" style="color:var(--paper);">Academic Foundation</div>
+    <div class="edu-grid reveal">
+      <div class="edu-card">
+        <div class="edu-degree">Master of Public Policy</div>
+        <div class="edu-school">UC Berkeley — Goldman School of Public Policy</div>
+        <div class="edu-detail">2024–2026 · Specialization in AI governance and tech policy. Coursework: Tech Policy Design, Case Studies in Prediction &amp; AI, Statistics for Program Evaluation, causal inference, econometrics.</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">Post-Graduate Diploma in Journalism</div>
+        <div class="edu-school">Asian College of Journalism (ACJ), Chennai</div>
+        <div class="edu-detail">India's premier journalism school. Training in investigative reporting, data journalism, and multimedia storytelling.</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">Teach For India Fellowship</div>
+        <div class="edu-school">Teach For India</div>
+        <div class="edu-detail">Two-year fellowship focused on education equity, working with underserved communities. Achieved significant improvements in student reading proficiency through data-informed methods.</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">Capstone: MIT AI Risk Repository</div>
+        <div class="edu-school">MIT FutureTech Collaboration</div>
+        <div class="edu-detail">Building compliance evaluation frameworks assessing how frontier AI companies' safety policies align with emerging regulations including the EU AI Act and California SB 53.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ AWARDS ═══════ -->
+<section id="awards">
+  <div class="section-inner">
+    <div class="section-label">Recognition</div>
+    <div class="section-title reveal">Awards &amp; Honors</div>
+    <div class="awards-list reveal">
+      <div class="award-item">
+        <div class="award-year">2022</div>
+        <div class="award-info">
+          <h3>IPI Award for Excellence in Journalism</h3>
+          <p>International Press Institute — Awarded for courageous frontline reporting during India's COVID-19 second wave, including crematorium investigations and death underreporting exposés across multiple states.</p>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-year">2016</div>
+        <div class="award-info">
+          <h3>Teach For India Fellowship</h3>
+          <p>Competitive national fellowship focused on education equity and social impact in underserved communities.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CONTACT ═══════ -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">Let's Connect</div>
+    <div class="section-title reveal">Open to Opportunities in<br/>AI Governance &amp; Tech Policy</div>
+    <div class="section-desc reveal">I'm actively seeking roles at the intersection of AI governance, tech accountability, and public policy — at think tanks, tech companies, government, and research institutions.</div>
+    <div class="contact-links reveal">
+      <a href="mailto:soniya.agrawal@berkeley.edu" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+        Email
+      </a>
+      <a href="https://www.linkedin.com/in/soniya-agrawal-2a3001168/" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://theprint.in/author/soniya-agrawal/" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Published Articles
+      </a>
+      <a href="https://muckrack.com/soniya-agrawal" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Muck Rack
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <p>&copy; 2025 Soniya Agrawal &middot; Built with purpose</p>
+</footer>
+
+<!-- ═══════ JAVASCRIPT ═══════ -->
+<script>
+  // ── Reveal on scroll ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Nav: hide on scroll down, show on scroll up ──
+  let lastScroll = 0;
+  let isClickScrolling = false;
+  const navEl = document.querySelector('nav');
+
+  document.querySelectorAll('nav .nav-links a, .hero-links a[href^="#"]').forEach(link => {
+    link.addEventListener('click', () => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        isClickScrolling = true;
+        navEl.style.transform = 'translateY(0)';
+        // Close mobile menu
+        document.querySelector('.nav-links').classList.remove('open');
+        setTimeout(() => { isClickScrolling = false; }, 1200);
+      }
+    });
+  });
+
+  window.addEventListener('scroll', () => {
+    if (isClickScrolling) return;
+    const current = window.pageYOffset;
+    if (current > lastScroll && current > 120) {
+      navEl.style.transform = 'translateY(-100%)';
+    } else {
+      navEl.style.transform = 'translateY(0)';
+    }
+    lastScroll = current;
+  });
+
+  // ── Active nav link highlight ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav .nav-links a');
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.25, rootMargin: '-70px 0px -50% 0px' });
+  sections.forEach(sec => sectionObserver.observe(sec));
+
+  // ── Article filter tabs ──
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  const articleCards = document.querySelectorAll('.article-card');
+
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Update active tab
+      filterTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      const filter = tab.getAttribute('data-filter');
+
+      articleCards.forEach(card => {
+        if (filter === 'all') {
+          card.style.display = 'flex';
+        } else {
+          const categories = card.getAttribute('data-category') || '';
+          card.style.display = categories.includes(filter) ? 'flex' : 'none';
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
